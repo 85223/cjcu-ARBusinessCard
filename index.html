@@ -1,0 +1,270 @@
+<html>
+  <head>
+    <!-- 你的網頁頁面名稱 -->
+    <title>我的WebAR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- MindAR 圖片辨識的核心 library  -->
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image.prod.js"></script>
+    <!-- A-Frame 框架 library  -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- MindAR 整合 A-Frame library  -->
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="./index.js"></script>
+  </head>
+  <body>
+    <!-- a-scene 可看作 unity 中的 scene 創建WebAR一個場景 -->
+    <a-scene
+      id="mytarget"
+      mytarget
+      mindar-image="imageTargetSrc: ./targets.mind;"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+      <!-- a-assets 主要是包裝靜態要加載在場景中的資源 -->
+      <a-assets>
+        <!-- 下方按鈕的紋理-->
+        <img
+          id="card"
+          src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/examples/image-tracking/assets/card-example/card.png"
+        />
+        <img
+          id="icon-profileButton"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/icons/profile.png"
+        />
+        <img
+          id="icon-webButton"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/icons/web.png"
+        />
+        <img
+          id="icon-emailButton"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/icons/email.png"
+        />
+        <img
+          id="icon-locationButton"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/icons/location.png"
+        />
+
+        <!-- 下方按鈕的紋理 -->
+
+        <!-- 上方Portfolio 按鈕紋理 -->
+
+        <img
+          id="icon-play"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/icons/play.png"
+        />
+        <img
+          id="icon-left"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/icons/left.png"
+        />
+        <img
+          id="icon-right"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/icons/right.png"
+        />
+        <img
+          id="paintandquest-preview"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/portfolio/paintandquest-preview.png"
+        />
+
+        <!-- 上方 Portfolio 按鈕紋理 -->
+
+        <video
+          id="paintandquest-video-webm"
+          autoplay="false"
+          loop="true"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/portfolio/paintandquest.webm"
+          playsinline=""
+          webkit-playsinline=""
+        ></video>
+
+        <img
+          id="coffeemachine-preview"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/portfolio/coffeemachine-preview.png"
+        />
+        <img
+          id="peak-preview"
+          src="https://hiukim.github.io/mind-ar-js-doc/samples/assets/card-example/portfolio/peak-preview.png"
+        />
+
+        <!--  3D 模型和材料 -->
+        <a-asset-item
+          id="avatarModel"
+          src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"
+        ></a-asset-item>
+      </a-assets>
+
+      <!-- 場景中的攝影機 -->
+      <!-- <a-camera position="0 0 0" look-controls="enabled: false"></a-camera> -->
+      <a-camera
+        position="0 0 0"
+        look-controls="enabled: false"
+        cursor="fuse: false; rayOrigin: mouse;"
+        raycaster="far: 10000; objects: .clickable"
+      ></a-camera>
+      <!-- entity 類似 unity 中的 GameObject 是實體化掛載在A-Frame中的物件 因此可以使用position rotation scale 等屬性   -->
+      <a-entity mindar-image-target="targetIndex: 0" cursor="fuse: false ">
+        <a-text
+          value="Portfolio"
+          color="black"
+          align="center"
+          width="2"
+          position="0 0.4 0"
+          text=""
+        ></a-text>
+        <a-plane
+          src="#card"
+          position="0 0 0"
+          height="0.552"
+          width="1"
+          rotation="0 0 0"
+        ></a-plane>
+
+        <a-entity visible="false" id="portfolio-panel" position="0 0 -0.01">
+          <a-text
+            value="Portfolio"
+            color="black"
+            align="center"
+            width="2"
+            position="0 0.4 0"
+            text=""
+          ></a-text>
+          <a-entity id="portfolio-item0">
+            <a-video
+              id="paintandquest-video-link"
+              webkit-playsinline=""
+              playsinline=""
+              width="1"
+              height="0.552"
+              position="0 0 0"
+              material=""
+              geometry=""
+            ></a-video>
+            <a-image
+              id="paintandquest-preview-button"
+              class="clickable"
+              src="#paintandquest-preview"
+              alpha-test="0.5"
+              position="0 0 0"
+              height="0.552"
+              width="1"
+              material=""
+              geometry=""
+            >
+            </a-image>
+          </a-entity>
+          <a-entity id="portfolio-item1" visible="false">
+            <a-image
+              class="clickable"
+              src="#coffeemachine-preview"
+              alpha-test="0.5"
+              position="0 0 0"
+              height="0.552"
+              width="1"
+              material=""
+              geometry=""
+            >
+            </a-image>
+          </a-entity>
+          <a-entity id="portfolio-item2" visible="false">
+            <a-image
+              class="clickable"
+              src="#peak-preview"
+              alpha-test="0.5"
+              position="0 0 0"
+              height="0.552"
+              width="1"
+              material=""
+              geometry=""
+            >
+            </a-image>
+          </a-entity>
+
+          <a-image
+            visible="false"
+            id="portfolio-left-button"
+            class="clickable"
+            src="#icon-left"
+            position="-0.7 0 0"
+            height="0.15"
+            width="0.15"
+            material=""
+            geometry=""
+          ></a-image>
+          <a-image
+            visible="false"
+            id="portfolio-right-button"
+            class="clickable"
+            src="#icon-right"
+            position="0.7 0 0"
+            height="0.15"
+            width="0.15"
+            material=""
+            geometry=""
+          ></a-image>
+        </a-entity>
+
+        <a-image
+          visible="false"
+          class="clickable"
+          id="profile-button"
+          src="#icon-profileButton"
+          position="-0.4 -0.5 0 "
+          height="0.1"
+          width="0.1"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 100; easing: easeInOutQuad; loop: true; dir: alternate"
+        >
+        </a-image>
+        <a-image
+          visible="false"
+          class="clickable"
+          id="web-button"
+          src="#icon-webButton"
+          position="-0.2 -0.5 0 "
+          height="0.1"
+          width="0.1"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        ></a-image>
+        <a-image
+          visible="false"
+          class="clickable"
+          id="email-button"
+          src="#icon-emailButton"
+          position="0 -0.5 0 "
+          height="0.1"
+          width="0.1"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        ></a-image>
+        <a-image
+          visible="false"
+          class="clickable"
+          id="location-button"
+          src="#icon-locationButton"
+          position="0.2 -0.5 0 "
+          height="0.1"
+          width="0.1"
+          animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+        ></a-image>
+        <a-text
+          id="text"
+          class="clickable"
+          value=""
+          color="black"
+          align="center"
+          width="2"
+          position="0 -1 0"
+          geometry="primitive:plane; height: 0.1; width: 2;"
+          material="opacity: 0.5"
+          text=""
+        ></a-text>
+        <a-gltf-model
+          id="avatar"
+          rotation="0 0 0 "
+          position="0 0 0.1"
+          scale="0.005 0.005 0.005"
+          src="#avatarModel"
+        ></a-gltf-model>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
