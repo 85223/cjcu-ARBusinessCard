@@ -10,18 +10,39 @@
     <!-- MindAR 整合 A-Frame library  -->
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="./index.js"></script>
+    <!-- 要加下面這個 library 才可以讓animation 可以讀取 3D model animation -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+    <style>
+      #example-scanning-overlay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.5;
+      }
+      #example-scanning-overlay img {
+        width: 100%;
+      }
+      #example-scanning-overlay.hidden {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <!-- a-scene 可看作 unity 中的 scene 創建WebAR一個場景 -->
+
     <a-scene
       id="mytarget"
       mytarget
-      mindar-image="imageTargetSrc: ./targets.mind;"
+      mindar-image="  imageTargetSrc: ./targets.mind;"
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
+      mindar-image="filterMinCF:0.1; filterBeta: 10"
     >
+      <!-- mindar-image="uiScanning: #example-scanning-overlay; imageTargetSrc: ./targets.mind" -->
       <!-- a-assets 主要是包裝靜態要加載在場景中的資源 -->
       <a-assets>
         <!-- 下方按鈕的紋理-->
@@ -91,6 +112,10 @@
         <a-asset-item
           id="avatarModel"
           src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"
+        ></a-asset-item>
+        <a-asset-item
+          id="dancingRunningMan"
+          src="./3dModel/scene.gltf"
         ></a-asset-item>
       </a-assets>
 
@@ -257,7 +282,16 @@
           material="opacity: 0.5"
           text=""
         ></a-text>
+
         <a-gltf-model
+          rotation="0 0 0 "
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          src="#dancingRunningMan"
+          animation-mixer
+        ></a-gltf-model>
+        <a-gltf-model
+          visible="false"
           id="avatar"
           rotation="0 0 0 "
           position="0 0 0.1"
